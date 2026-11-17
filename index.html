@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>07031985.xyz — coming soon</title>
+
+    <meta name="description" content="The site for 07031985.xyz is coming soon." />
+    <!-- noindex: keeps the placeholder out of search results. Remove this line when the real site launches. -->
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#08080b" />
+    <link rel="canonical" href="https://07031985.xyz/" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="07031985.xyz" />
+    <meta property="og:title" content="07031985.xyz — coming soon" />
+    <meta property="og:description" content="The site for 07031985.xyz is coming soon." />
+    <meta property="og:url" content="https://07031985.xyz/" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      // The site owner wants the entrance animation on, so enable it
+      // unconditionally (even when the OS has "Reduce Motion" enabled).
+      document.documentElement.classList.add("anim");
+    </script>
+  </head>
+
+  <body>
+    <div class="bg-glow" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
+    <main class="stage">
+      <p class="pill">
+        <span class="pill__dot" aria-hidden="true"></span>
+        under construction
+      </p>
+
+      <h1 class="title">
+        <span class="title__name">07031985</span><span class="title__tld">.xyz</span>
+        <span class="title__fog" aria-hidden="true">07031985.xyz</span>
+      </h1>
+
+      <p class="lead">We're putting the finishing touches on the new site. Check back soon.</p>
+    </main>
+
+    <footer class="foot">
+      <span id="copyright">© 07031985.xyz</span>
+    </footer>
+
+    <script>
+      (function () {
+        var copyright = document.getElementById("copyright");
+        if (copyright) {
+          copyright.textContent = "© " + new Date().getFullYear() + " 07031985.xyz";
+        }
+
+        // If the entrance animation is stalled (throttled webview, hidden
+        // tab…), reveal the content instead of leaving it invisible. This
+        // only fires when the title is still fully transparent well after
+        // the animation should have shown it.
+        (function () {
+          var html = document.documentElement;
+          var title = document.querySelector(".title__name") || document.querySelector(".code");
+          if (!html.classList.contains("anim") || !title) return;
+          window.setTimeout(function () {
+            var opacity = parseFloat(getComputedStyle(title).opacity);
+            if (opacity < 0.05) html.classList.remove("anim");
+          }, 3000);
+          window.setTimeout(function () {
+            html.classList.remove("anim");
+          }, 12500);
+        })();
+
+        var glow = document.querySelector(".cursor-glow");
+        if (!glow) return;
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        var cx = 0,
+          cy = 0,
+          tx = 0,
+          ty = 0,
+          raf = null,
+          started = false;
+
+        function render() {
+          cx += (tx - cx) * 0.12;
+          cy += (ty - cy) * 0.12;
+          glow.style.transform =
+            "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
+
+          if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) {
+            raf = requestAnimationFrame(render);
+          } else {
+            raf = null;
+          }
+        }
+
+        window.addEventListener(
+          "mousemove",
+          function (event) {
+            tx = event.clientX;
+            ty = event.clientY;
+            if (!started) {
+              started = true;
+              cx = tx;
+              cy = ty;
+              glow.classList.add("is-on");
+            }
+            if (!raf) raf = requestAnimationFrame(render);
+          },
+          { passive: true }
+        );
+      })();
+    </script>
+  </body>
+</html>

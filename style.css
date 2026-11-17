@@ -1,0 +1,446 @@
+/* ============================================================
+   07031985.xyz placeholder — shared styles for index.html and 404.html
+   Want a different colour? Change --accent / --accent-2 / --bg.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+
+  --bg: #08080b;
+  --fg: #f4f4f6;
+  --muted: #9a9aa6;
+  --dim: #6b6b77;
+
+  --accent: #7c8cff;
+  --accent-2: #c08bff;
+
+  --line: rgba(255, 255, 255, 0.1);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+/* ---------- background: glow + grid ---------- */
+
+.bg-glow {
+  position: fixed;
+  inset: -30%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(40rem 40rem at 24% 20%, rgba(124, 140, 255, 0.18), transparent 62%),
+    radial-gradient(36rem 36rem at 80% 76%, rgba(192, 139, 255, 0.14), transparent 64%),
+    radial-gradient(28rem 28rem at 62% 6%, rgba(96, 216, 255, 0.09), transparent 62%);
+}
+
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 76px 76px;
+  -webkit-mask-image: radial-gradient(
+    circle at 50% 42%,
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 42%,
+    transparent 74%
+  );
+  mask-image: radial-gradient(
+    circle at 50% 42%,
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 42%,
+    transparent 74%
+  );
+}
+
+.cursor-glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 620px;
+  height: 620px;
+  margin: -310px 0 0 -310px;
+  z-index: -1;
+  border-radius: 50%;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(124, 140, 255, 0.13), transparent 64%);
+  opacity: 0;
+  transition: opacity 0.7s var(--ease);
+  will-change: transform;
+}
+
+.cursor-glow.is-on {
+  opacity: 1;
+}
+
+/* ---------- content ---------- */
+
+.stage {
+  position: relative;
+  width: 100%;
+  max-width: 60rem;
+  margin-inline: auto;
+  padding: clamp(2rem, 6vw, 4rem) clamp(1.25rem, 5vw, 3rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.9rem, 2.2vw, 1.35rem);
+  text-align: center;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.42rem 0.9rem 0.42rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.pill__dot {
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: #6ee7a8;
+  animation: pulse 2.8s var(--ease) infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(110, 231, 168, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 0.55rem rgba(110, 231, 168, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(110, 231, 168, 0);
+  }
+}
+
+.title {
+  position: relative;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0 0.06em;
+  font-size: clamp(2.5rem, 11vw, 6.5rem);
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.042em;
+  font-variant-numeric: tabular-nums;
+}
+
+.title__name {
+  color: #f1f1f5;
+}
+
+.title__tld {
+  color: var(--accent);
+}
+
+/* blurred "fog" copy of the domain, used for the entrance effect. It is a
+   solid-colour element so the blur is safe in every engine (unlike blur on
+   background-clip:text text). Hidden by default; only shown while .anim runs. */
+.title__fog {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: inherit;
+  letter-spacing: inherit;
+  font-variant-numeric: tabular-nums;
+  color: #cdd0ea;
+  filter: blur(28px);
+  opacity: 0;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  /* background-clip: text only paints inside the element box, and the box is
+     0.95em tall (line-height) — descenders such as the tail of "y" would get
+     cut off. Extend the paint area downwards, cancel it with a margin so the
+     layout stays exactly the same. */
+  .title__name,
+  .title__tld {
+    padding-bottom: 0.26em;
+    margin-bottom: -0.26em;
+  }
+
+  .title__name {
+    background-image: linear-gradient(180deg, #ffffff 0%, #d9d9e4 52%, #9b9bad 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .title__tld {
+    background-image: linear-gradient(120deg, var(--accent) 0%, var(--accent-2) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.code {
+  margin: 0;
+  font-size: clamp(3.6rem, 15vw, 7.5rem);
+  line-height: 0.9;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: #f1f1f5;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .code {
+    background-image: linear-gradient(180deg, #ffffff 0%, #a9a9c0 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}
+
+.lead {
+  margin: 0;
+  max-width: 31rem;
+  font-size: clamp(0.98rem, 2.4vw, 1.08rem);
+  line-height: 1.65;
+  color: var(--muted);
+  text-wrap: balance;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin-top: 0.35rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.72rem 1.2rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-family: inherit;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: var(--fg);
+  text-decoration: none;
+  transition:
+    transform 0.35s var(--ease),
+    border-color 0.35s var(--ease),
+    background-color 0.35s var(--ease),
+    box-shadow 0.35s var(--ease);
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(124, 140, 255, 0.55);
+  background: rgba(124, 140, 255, 0.12);
+  box-shadow: 0 14px 32px -14px rgba(124, 140, 255, 0.6);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn svg {
+  width: 1.05em;
+  height: 1.05em;
+  opacity: 0.9;
+}
+
+/* ---------- footer ---------- */
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.85rem;
+  padding: 1.5rem clamp(1.25rem, 5vw, 3rem)
+    calc(1.5rem + env(safe-area-inset-bottom));
+  font-size: 0.79rem;
+  color: var(--dim);
+  letter-spacing: 0.01em;
+}
+
+/* ---------- misc ---------- */
+
+::selection {
+  background: rgba(124, 140, 255, 0.35);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid rgba(124, 140, 255, 0.9);
+  outline-offset: 3px;
+  border-radius: 8px;
+}
+
+/* ---------- entrance animation ----------
+   Pure enhancement: the content is fully visible by default. The animation
+   (and its hidden start state) applies only while <html> carries the `anim`
+   class, which JS adds in <head> and removes again if frames never tick.
+   That way the page can never be left invisible. */
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 404 code: a simple fade + settle */
+@keyframes emerge {
+  from {
+    opacity: 0;
+    transform: scale(1.06) translateY(0.03em);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* the domain name appears out of fog: the sharp gradient text fades in while
+   a blurred "fog" copy of it dissolves away */
+@keyframes unfog {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fogaway {
+  from {
+    opacity: 1;
+    filter: blur(34px);
+  }
+  to {
+    opacity: 0;
+    filter: blur(12px);
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.03);
+  }
+  to {
+    transform: none;
+  }
+}
+
+.anim .stage > * {
+  animation: rise 0.85s var(--ease) backwards;
+}
+
+.anim .stage > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+
+.anim .stage > *:nth-child(3) {
+  animation-delay: 6s;
+}
+
+.anim .stage > *:nth-child(4) {
+  animation-delay: 7s;
+}
+
+.anim .title {
+  animation: settle 10s ease-in-out backwards;
+}
+
+.anim .code {
+  animation: emerge 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.12s backwards;
+}
+
+.anim .title__name,
+.anim .title__tld {
+  animation: unfog 10s ease-in-out 0.3s backwards;
+}
+
+.anim .title__fog {
+  animation: fogaway 10s ease-in-out 0.3s backwards;
+}
+
+.anim .foot {
+  animation: rise 0.9s var(--ease) 8s backwards;
+}
+
+/* Respect "Reduce Motion" only for the ambient motion (the pulsing dot and
+   the cursor glow). The entrance animation is kept on, per the site owner. */
+@media (prefers-reduced-motion: reduce) {
+  .cursor-glow {
+    display: none;
+  }
+
+  .pill__dot {
+    animation: none !important;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-glow {
+    display: none;
+  }
+}

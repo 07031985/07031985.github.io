@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>404 — 07031985.xyz</title>
+
+    <meta name="description" content="There is no such page on 07031985.xyz." />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="theme-color" content="#08080b" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <link rel="stylesheet" href="style.css" />
+    <script>
+      // The site owner wants the entrance animation on, so enable it
+      // unconditionally (even when the OS has "Reduce Motion" enabled).
+      document.documentElement.classList.add("anim");
+    </script>
+  </head>
+
+  <body>
+    <div class="bg-glow" aria-hidden="true"></div>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="cursor-glow" aria-hidden="true"></div>
+
+    <main class="stage">
+      <p class="pill">
+        <span class="pill__dot" aria-hidden="true"></span>
+        error 404
+      </p>
+
+      <h1 class="code">404</h1>
+
+      <p class="lead">
+        This page doesn't exist. The link may be outdated, or there's a typo in
+        the address.
+      </p>
+
+      <div class="actions">
+        <a class="btn" href="/">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M19 12H5" />
+            <path d="m12 19-7-7 7-7" />
+          </svg>
+          Back home
+        </a>
+      </div>
+    </main>
+
+    <footer class="foot">
+      <span id="copyright">© 07031985.xyz</span>
+    </footer>
+
+    <script>
+      (function () {
+        var copyright = document.getElementById("copyright");
+        if (copyright) {
+          copyright.textContent = "© " + new Date().getFullYear() + " 07031985.xyz";
+        }
+
+        // If the entrance animation is stalled (throttled webview, hidden
+        // tab…), reveal the content instead of leaving it invisible. This
+        // only fires when the title is still fully transparent well after
+        // the animation should have shown it.
+        (function () {
+          var html = document.documentElement;
+          var title = document.querySelector(".title__name") || document.querySelector(".code");
+          if (!html.classList.contains("anim") || !title) return;
+          window.setTimeout(function () {
+            var opacity = parseFloat(getComputedStyle(title).opacity);
+            if (opacity < 0.05) html.classList.remove("anim");
+          }, 3000);
+          window.setTimeout(function () {
+            html.classList.remove("anim");
+          }, 12500);
+        })();
+
+        var glow = document.querySelector(".cursor-glow");
+        if (!glow) return;
+        if (!window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+        var cx = 0,
+          cy = 0,
+          tx = 0,
+          ty = 0,
+          raf = null,
+          started = false;
+
+        function render() {
+          cx += (tx - cx) * 0.12;
+          cy += (ty - cy) * 0.12;
+          glow.style.transform =
+            "translate3d(" + cx.toFixed(1) + "px," + cy.toFixed(1) + "px,0)";
+
+          if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5) {
+            raf = requestAnimationFrame(render);
+          } else {
+            raf = null;
+          }
+        }
+
+        window.addEventListener(
+          "mousemove",
+          function (event) {
+            tx = event.clientX;
+            ty = event.clientY;
+            if (!started) {
+              started = true;
+              cx = tx;
+              cy = ty;
+              glow.classList.add("is-on");
+            }
+            if (!raf) raf = requestAnimationFrame(render);
+          },
+          { passive: true }
+        );
+      })();
+    </script>
+  </body>
+</html>
